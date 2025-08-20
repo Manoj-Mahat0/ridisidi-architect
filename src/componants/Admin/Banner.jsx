@@ -117,8 +117,6 @@ const Banner = () => {
         loading={loading}
       />
 
-     
-
       {/* Display Banners */}
       <div className="bg-white shadow rounded-lg">
         <h2 className="text-xl font-semibold p-6 border-b">🎯 Current Banners</h2>

@@ -3,53 +3,62 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { getSwiperConfig, prepareSlidesForLoop } from "../../utils/swiperUtils";
-import img35 from "../../../Public/Images/Shopping cum Residence, Chira Chas, Bokaro.webp";
-import img37 from "../../../Public/Images/Sunil Mahato,Bhalsundha, Chas, Bokaro.webp";
+import { bannerService } from "../../api/bannerService";
+import { getCleanImageUrl } from "../../utils/imageUtils";
 
-const slidesData = [
-  { id: 2, image: img35 },
-  { id: 4, image: img37 },
-];
-
-export default function Hero() {
-  const [isHeroPart, setIsHeroPart] = useState(false);
+export default function ServicePageBanner() {
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setIsHeroPart(true);
+    const loadBanners = async () => {
+      try {
+        setLoading(true);
+     
+        const data = await bannerService.fetchBanners(0, 100, "Services Banner");
+        const activeBanners = data.filter((b) => b.is_active);
+        setBanners(activeBanners);
+      } catch (err) {
+        console.error("Error loading Services Banner:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBanners();
   }, []);
-
-  // Prepare slides for loop mode and get optimal configuration
-  const preparedSlides = prepareSlidesForLoop(slidesData, 4);
-  const swiperConfig = getSwiperConfig(preparedSlides.length, {
-    slidesPerView: 1,
-    autoplayDelay: 3000,
-    spaceBetween: 0
-  });
 
   return (
     <div className="relative -mt-3">
-      {isHeroPart && (
+      {loading ? (
+        <p className="text-center py-6">Loading Services Banner...</p>
+      ) : banners.length === 0 ? (
+        <p className="text-center py-6">No Services Banner available</p>
+      ) : (
         <Swiper
-          {...swiperConfig}
+          slidesPerView={1}
+          navigation
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
           modules={[Navigation, Autoplay]}
           className="mySwiper"
         >
-          {preparedSlides.map(({ id, image }, index) => (
-            <SwiperSlide key={`${id}-${index}`}>
+          {banners.map((banner) => (
+            <SwiperSlide key={banner.id}>
               <div className="relative lg:h-[400px] h-full">
                 <img
-                  src={image}
-                  alt={`Slide ${id}`}
+                  src={getCleanImageUrl(banner.image_url, banner.image_path)}
+                  alt={banner.image_alt || banner.title}
                   className="w-full h-full object-cover"
-                  onContextMenu={(e) => e.preventDefault()} // disable right-click
-                  draggable={false} // disable drag
-                  loading="lazy" // improve loading
-                />
-                <div
-                  className="absolute inset-0 z-10"
+                  draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
-                ></div>
+                  loading="lazy"
+                />
+                {/* optional overlay */}
+                {banner.title && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-6">
+                    <h2 className="text-xl font-bold">{banner.title}</h2>
+                    {banner.description && <p>{banner.description}</p>}
+                  </div>
+                )}
               </div>
             </SwiperSlide>
           ))}

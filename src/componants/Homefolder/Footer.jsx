@@ -65,8 +65,8 @@ export default function Footer() {
                 </p>
         </div>
       </div>
-      <div className="mt-8 text-center text-sm text-white border-t border-white/20  ">
-        <p className="mt-5 pb-6">
+      <div className="mt-8 text-center text-sm text-white border-t border-white/20 ">
+        <p className="mt-5 pb-6 text-black ">
           &copy; 2025 Riddhi Siddhi Architect. All rights reserved. Powered by{" "}
           <a
             href="https://www.systaio.com/"

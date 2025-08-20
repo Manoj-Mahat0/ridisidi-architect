@@ -1,50 +1,115 @@
+// import React, { useEffect, useState } from "react";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Navigation, Autoplay } from "swiper/modules";
+// import "swiper/css";
+// import "swiper/css/navigation";
+// import { bannerService } from "../../api/bannerService";
+// import { getCleanImageUrl } from "../../utils/imageUtils";
+
+// export default function AboutSlider() {
+//   const [banners, setBanners] = useState([]);
+//   const [loading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     const loadBanners = async () => {
+//       try {
+//         setLoading(true);
+//         const data = await bannerService.fetchBanners(0, 100, "Aboutus Banner");
+//         const activeBanners = data.filter((b) => b.is_active);
+//         setBanners(activeBanners);
+//       } catch (err) {
+//         console.error("Error loading aboutus banners:", err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     loadBanners();
+//   }, []);
+
+//   return (
+//     <div className="relative -mt-3">
+//       {loading ? (
+//         <p className="text-center py-6">Loading aboutus banners...</p>
+//       ) : banners.length === 0 ? (
+//         <p className="text-center py-6">No aboutus banners available</p>
+//       ) : (
+//         <Swiper
+//           slidesPerView={1}
+//           navigation
+//           autoplay={{ delay: 3000, disableOnInteraction: false }}
+//           modules={[Navigation, Autoplay]}
+//           className="mySwiper"
+//         >
+//           {banners.map((banner) => (
+//             <SwiperSlide key={banner.id}>
+//               <div className="relative lg:h-[400px] h-full">
+//                 <img
+//                   src={getCleanImageUrl(banner.image_url, banner.image_path)}
+//                   alt={banner.image_alt || banner.title}
+//                   className="w-full h-full object-cover"
+//                   draggable={false}
+//                   onContextMenu={(e) => e.preventDefault()}
+//                 />
+//               </div>
+//             </SwiperSlide>
+//           ))}
+//         </Swiper>
+//       )}
+//     </div>
+//   );
+// }
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { getSwiperConfig, prepareSlidesForLoop } from "../../utils/swiperUtils";
-import img21 from "../../../Public/Images/Kalyan Township, Duplex Cluster, Telgaria More, Chas.webp";
-import img26 from "../../../Public/Images/Marriage Hall, Mamarkudar,Bokaro.webp";
+import { bannerService } from "../../api/bannerService";
+import { getCleanImageUrl } from "../../utils/imageUtils";
 
-const slidesData = [
-  { id: 1, image: img26 },
-  { id: 2, image: img21 },
-];
-
-export default function Hero() {
-  const [isHeroPart, setIsHeroPart] = useState(false);
+export default function AboutSlider() {
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setIsHeroPart(true);
+    const loadBanners = async () => {
+      try {
+        setLoading(true);
+        // yaha "Aboutus Banner" title ke banners fetch honge
+        const data = await bannerService.fetchBanners(0, 100, "Aboutus Banner");
+        const activeBanners = data.filter((b) => b.is_active);
+        setBanners(activeBanners);
+      } catch (err) {
+        console.error("Error loading About Us banners:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBanners();
   }, []);
-
-  // Prepare slides for loop mode and get optimal configuration
-  const preparedSlides = prepareSlidesForLoop(slidesData, 4);
-  const swiperConfig = getSwiperConfig(preparedSlides.length, {
-    slidesPerView: 1,
-    autoplayDelay: 3000,
-    spaceBetween: 0
-  });
 
   return (
     <div className="relative -mt-3">
-      {isHeroPart && (
+      {loading ? (
+        <p className="text-center py-6">Loading About Us banners...</p>
+      ) : banners.length === 0 ? (
+        <p className="text-center py-6">No About Us banners available</p>
+      ) : (
         <Swiper
-          {...swiperConfig}
+          slidesPerView={1}
+          navigation
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
           modules={[Navigation, Autoplay]}
-          className="mySwiper"
+          className="aboutSwiper"
         >
-          {preparedSlides.map(({ id, image }, index) => (
-            <SwiperSlide key={`${id}-${index}`}>
+          {banners.map((banner) => (
+            <SwiperSlide key={banner.id}>
               <div className="relative lg:h-[400px] h-full">
                 <img
-                  src={image}
-                  alt={`Slide ${id}`}
+                  src={getCleanImageUrl(banner.image_url, banner.image_path)}
+                  alt={banner.image_alt || banner.title}
                   className="w-full h-full object-cover"
-                  onContextMenu={(e) => e.preventDefault()} // Prevent right-click
-                  draggable={false} // Prevent dragging
-                  loading="lazy" // Lazy load
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             </SwiperSlide>

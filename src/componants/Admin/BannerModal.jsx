@@ -15,6 +15,15 @@ const BannerModal = ({ isOpen, onClose, editingBanner, onSubmit, loading }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
 
+  // Define options for the title select box
+  const titleOptions = [
+    { value: 'Homepage Banner', label: 'Homepage Banner' },
+    { value: 'Aboutus Banner', label: 'Aboutus Banner' },
+    { value: 'Services Banner', label: 'Services Banner' },
+    { value: 'OurTeam Banner', label: 'OurTeam Banner' },
+    // { value: 'Custom', label: 'Custom (Enter manually)' }
+  ];
+
   useEffect(() => {
     if (editingBanner) {
       setFormData({
@@ -101,23 +110,28 @@ const BannerModal = ({ isOpen, onClose, editingBanner, onSubmit, loading }) => {
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            
+            {/* Title Select Box */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Title *
-            </label>
-            <input
-                type="text"
+              </label>
+              <select
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
                 required
-              className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-              placeholder="Enter banner title"
-            />
-          </div>
+                className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              >
+                <option value="">-- Select Title --</option>
+                {titleOptions.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Description
               </label>
               <input

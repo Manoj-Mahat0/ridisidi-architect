@@ -3,52 +3,61 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { getSwiperConfig, prepareSlidesForLoop } from "../../utils/swiperUtils";
-import img28 from "../../../Public/Images/Nimai Home, Shashi Nagar, PH-1, Chas, Bokaro.webp";
-import img29 from "../../../Public/Images/Nurshing Home, Cooperative, Bokaro.webp";
-import img30 from "../../../Public/Images/Poonam Home, Navin Cooperative, Chira Chas, Bokaro.webp";
-import img31 from "../../../Public/Images/Ramij Home,Ansari Mohalla, Chas, Bokaro.webp";
+import { bannerService } from "../../api/bannerService";
+import { getCleanImageUrl } from "../../utils/imageUtils";
 
-const slidesData = [
-  { id: 2, image: img29 },
-  { id: 3, image: img30 },
-  { id: 4, image: img31 },
-];
-
-export default function Hero() {
-  const [isHeroPart, setIsHeroPart] = useState(false);
+export default function OurTeamBanner() {
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setIsHeroPart(true);
+    const loadBanners = async () => {
+      try {
+        setLoading(true);
+     
+        const data = await bannerService.fetchBanners(0, 100, "Ourteam Banner");
+        const activeBanners = data.filter((b) => b.is_active);
+        setBanners(activeBanners);
+      } catch (err) {
+        console.error("Error loading our team banners:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBanners();
   }, []);
-
-  // Prepare slides for loop mode and get optimal configuration
-  const preparedSlides = prepareSlidesForLoop(slidesData, 4);
-  const swiperConfig = getSwiperConfig(preparedSlides.length, {
-    slidesPerView: 1,
-    autoplayDelay: 3000,
-    spaceBetween: 0
-  });
 
   return (
     <div className="relative -mt-3">
-      {isHeroPart && (
+      {loading ? (
+        <p className="text-center py-6">Loading our team banners...</p>
+      ) : banners.length === 0 ? (
+        <p className="text-center py-6">No our team banners available</p>
+      ) : (
         <Swiper
-          {...swiperConfig}
+          slidesPerView={1}
+          navigation
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
           modules={[Navigation, Autoplay]}
           className="mySwiper"
         >
-          {preparedSlides.map(({ id, image }, index) => (
-            <SwiperSlide key={`${id}-${index}`}>
+          {banners.map((banner) => (
+            <SwiperSlide key={banner.id}>
               <div className="relative lg:h-[400px] h-full">
                 <img
-                  src={image}
-                  alt={`Slide ${id}`}
+                  src={getCleanImageUrl(banner.image_url, banner.image_path)}
+                  alt={banner.image_alt || banner.title}
                   className="w-full h-full object-cover"
-                  onContextMenu={(e) => e.preventDefault()}
                   draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                   loading="lazy"
                 />
+                {banner.title && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-6">
+                    <h2 className="text-xl font-bold">{banner.title}</h2>
+                    {banner.description && <p>{banner.description}</p>}
+                  </div>
+                )}
               </div>
             </SwiperSlide>
           ))}
