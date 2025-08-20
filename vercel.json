@@ -1,0 +1,23 @@
+{
+  "headers": [
+    {
+      "source": "/src/assets/unison-pro/Type Juice - Unison Pro Bold Round.otf",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "font/otf"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://backend.riddhisiddhiarchitect.in/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
