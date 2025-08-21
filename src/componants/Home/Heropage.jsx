@@ -42,24 +42,17 @@ export default function Hero() {
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           modules={[Navigation, Autoplay]}
           className="mySwiper"
-          style={{ height: "80vh" }}
         >
           {banners.map((banner) => (
             <SwiperSlide key={banner.id}>
-              <div className="relative select-none">
+              <div className="relative select-none w-full h-64 sm:h-80 md:h-[80vh]">
                 <img
                   src={getCleanImageUrl(banner.image_url, banner.image_path)}
-                  alt={banner.image_alt || banner.title}
+                  alt="Banner"
                   className="w-full h-full object-cover"
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                 />
-                {banner.title && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-6">
-                    <h2 className="text-2xl font-bold mb-2">{banner.title}</h2>
-                    {banner.description && <p>{banner.description}</p>}
-                  </div>
-                )}
               </div>
             </SwiperSlide>
           ))}

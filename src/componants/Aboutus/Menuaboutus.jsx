@@ -15,7 +15,7 @@ const AboutUs = () => {
   return (
     <>
       <Aboutslider />
-      <section className="py-6">
+      <section className="py-6 lg:mt-10 -mt-20">
         <div>
           <h2 className="text-3xl font-bold mb-4 text-black" data-aos="fade-up">Our Story</h2>
           <p className="text-gray-700 leading-relaxed" data-aos="fade-up" data-aos-delay="100">
@@ -178,7 +178,7 @@ const AboutUs = () => {
         <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
         <p className="mb-6">Contact our team today to schedule a consultation.</p>
         <a
-          href="/contact"
+          href="/menucontactus"
           className="inline-block bg-white text-black px-6 py-3 font-semibold rounded shadow hover:bg-gray-100"
         >
           Get in Touch

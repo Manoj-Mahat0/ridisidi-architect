@@ -1,4 +1,3 @@
-// src/pages/OurServices.jsx
 import React, { useEffect, useState } from "react";
 import { serviceService } from "../../api/serviceService";
 import { getCleanImageUrl } from "../../utils/imageUtils";
@@ -12,74 +11,60 @@ export default function OurServices() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        console.log("Trying authenticated API call...");
         const res = await serviceService.fetchServices();
-        console.log("Raw services response:", res);
-        console.log("Response type:", typeof res);
-        console.log("Is array?", Array.isArray(res));
-        console.log("Response keys:", res ? Object.keys(res) : 'null/undefined');
+        let servicesArray = [];
 
         if (Array.isArray(res)) {
-          console.log("Setting services from array:", res);
-          setServices(res);
-          
-          // Group services by category
-          const grouped = res.reduce((acc, service) => {
-            // Extract category from service name (e.g., "RESIDENTIAL PROJECT" -> "RESIDENTIAL")
-            let category = "Interior Design";
-            
-            if (service.name.includes("RESIDENTIAL")) {
-              category = "Residential Projects";
-            } else if (service.name.includes("COMMERCIAL")) {
-              category = "Commercial Projects";
-            } else if (service.name.includes("INTERIOR")) {
-              category = "Interior Design";
-            } else if (service.name.includes("LANDSCAPE")) {
-              category = "Landscape Design";
-            } else if (service.name.includes("RENOVATION")) {
-              category = "Renovation";
-            } else if (service.name.includes("PLANNING")) {
-              category = "Planning & Consultation";
-            }
-            
-            if (!acc[category]) {
-              acc[category] = [];
-            }
-            acc[category].push(service);
-            return acc;
-          }, {});
-          
-          setGroupedServices(grouped);
-          
-          // Set categories for tabs (including "All")
-          const categoryList = ["All", ...Object.keys(grouped)];
-          setCategories(categoryList);
+          servicesArray = res;
         } else if (res?.data && Array.isArray(res.data)) {
-          // some APIs return { data: [...] }
-          console.log("Setting services from res.data:", res.data);
-          setServices(res.data);
+          servicesArray = res.data;
         } else if (res?.items && Array.isArray(res.items)) {
-          // some APIs return { items: [...] }
-          console.log("Setting services from res.items:", res.items);
-          setServices(res.items);
+          servicesArray = res.items;
         } else {
           console.error("Unexpected response format:", res);
-          setServices([]);
+          servicesArray = [];
         }
+
+        setServices(servicesArray);
+
+
+        const grouped = servicesArray.reduce((acc, service) => {
+          let category = "Interior Design";
+
+          if (service.name.toUpperCase().includes("RESIDENTIAL")) {
+            category = "Residential Projects";
+          } else if (service.name.toUpperCase().includes("COMMERCIAL")) {
+            category = "Commercial Projects";
+          } else if (service.name.toUpperCase().includes("INTERIOR")) {
+            category = "Interior Design";
+          } else if (service.name.toUpperCase().includes("LANDSCAPE")) {
+            category = "Landscape Design";
+          } else if (service.name.toUpperCase().includes("RENOVATION")) {
+            category = "Renovation";
+          } else if (service.name.toUpperCase().includes("PLANNING")) {
+            category = "Planning & Consultation";
+          }
+
+          if (!acc[category]) {
+            acc[category] = [];
+          }
+          acc[category].push(service);
+          return acc;
+        }, {});
+
+        setGroupedServices(grouped);
+
+
+        setCategories(["All", ...Object.keys(grouped)]);
       } catch (error) {
         console.error("Error fetching services:", error);
-        console.error("Error details:", {
-          message: error.message,
-          status: error.response?.status,
-          data: error.response?.data
-        });
       }
     };
 
     fetchServices();
   }, []);
 
-  // Get services to display based on active tab
+
   const getServicesToDisplay = () => {
     if (activeTab === "All") {
       return services;
@@ -88,67 +73,67 @@ export default function OurServices() {
   };
 
   return (
-    <div className="services-container max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-center text-3xl font-bold mb-10">Our Services</h2>
+    <div className="services-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mb-10">
+        Our Services
+      </h2>
 
       {services.length === 0 ? (
         <p className="text-center text-gray-500">No services available.</p>
       ) : (
         <>
-          {/* Category Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-8">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveTab(category)}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                  activeTab === category
-                    ? 'bg-blue-600 text-white shadow-lg transform scale-105'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
-                }`}
+                className={`px-4 sm:px-5 md:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 ${activeTab === category
+                    ? "bg-blue-600 text-white shadow-lg transform scale-105"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md"
+                  }`}
               >
                 {category}
               </button>
             ))}
           </div>
 
-          {/* Services Display */}
+
           <div className="services-grid">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {getServicesToDisplay().map((service, idx) => (
                 <div
                   key={service.id || idx}
-                  className="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 p-6 flex flex-col transform hover:-translate-y-1"
+                  className="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 p-4 sm:p-6 flex flex-col transform hover:-translate-y-1"
                 >
-                  {/* Service Image */}
+
                   {service.image_path && (
                     <div className="relative overflow-hidden rounded-lg mb-4">
                       <img
                         src={getCleanImageUrl(service.image_url, service.image_path)}
                         alt={service.name || "Service Image"}
-                        className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-300"
+                        className="w-full h-40 sm:h-48 md:h-56 object-cover transform hover:scale-105 transition-transform duration-300"
                         onError={(e) => {
-                          console.error('Image failed to load:', service.image_path);
-                          e.target.style.display = 'none';
+                          e.target.style.display = "none";
                         }}
                       />
                     </div>
                   )}
 
-                  {/* Service Title */}
-                  <h4 className="text-xl font-semibold mb-3 text-gray-800">
+                  <h4 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-gray-800">
                     {service.name}
                   </h4>
 
-                  {/* Service Description */}
-                  <p className="text-gray-600 flex-1 mb-4">
+
+                  <p className="text-gray-600 text-sm sm:text-base flex-1 mb-4">
                     {service.description || "Innovative and functional design solutions."}
                   </p>
 
-                  {/* Service Features (if available) */}
                   {service.features && service.features.length > 0 && (
                     <div className="mt-auto">
-                      <h5 className="text-sm font-semibold text-gray-700 mb-2">Features:</h5>
+                      <h5 className="text-sm font-semibold text-gray-700 mb-2">
+                        Features:
+                      </h5>
                       <ul className="text-sm text-gray-600 space-y-1">
                         {service.features.map((feature, featureIdx) => (
                           <li key={featureIdx} className="flex items-center">
@@ -159,34 +144,19 @@ export default function OurServices() {
                       </ul>
                     </div>
                   )}
-
-                  {/* Service Status Badge */}
-                  <div className="mt-4 flex justify-between items-center">
-                    <span className={`px-3 py-1 text-xs rounded-full ${
-                      service.is_active 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-gray-100 text-gray-800'
-                    }`}>
-                      {service.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                    {service.sort_order > 0 && (
-                      <span className="text-xs text-gray-500">
-                        Priority: {service.sort_order}
-                      </span>
-                    )}
-                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* No services message for empty categories */}
           {getServicesToDisplay().length === 0 && activeTab !== "All" && (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No services available in {activeTab} category.</p>
+              <p className="text-gray-500 text-base sm:text-lg">
+                No services available in {activeTab} category.
+              </p>
               <button
                 onClick={() => setActiveTab("All")}
-                className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="mt-4 px-5 py-2 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 View All Services
               </button>

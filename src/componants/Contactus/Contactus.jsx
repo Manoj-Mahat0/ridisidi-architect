@@ -12,7 +12,7 @@ const ContactSection = () => {
 
   return (
     <>
-<div className="flex items-center justify-center y-12 mt-10 ">
+<div className="flex items-center justify-center y-12 lg:mt-10 -mt-20">
         <div
           className="rounded-xl  flex flex-col lg:flex-row overflow-hidden"
           data-aos="zoom-in-up"

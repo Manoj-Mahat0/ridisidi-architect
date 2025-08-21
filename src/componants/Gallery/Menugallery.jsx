@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { toast } from "react-hot-toast";
 import { galleryService } from "../../api/galleryService";
 import Projectslider from "./Projectslider";
 import { getCleanImageUrl } from "../../utils/imageUtils";
@@ -7,17 +6,13 @@ import { getCleanImageUrl } from "../../utils/imageUtils";
 export default function Menugallery() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const loadGallery = useCallback(async () => {
     setLoading(true);
-    setError(null);
     try {
-      // 1. Fetch all categories
       const cats = await galleryService.fetchCategories();
 
-      // 2. Fetch items for each category
       const categoriesWithItems = await Promise.all(
         cats.map(async (cat) => {
           try {
@@ -29,18 +24,14 @@ export default function Menugallery() {
                 }))
               : [];
             return { ...cat, items: normalizedItems };
-          } catch (err) {
-            console.error("Failed to fetch items for category:", cat.name, err);
+          } catch {
             return { ...cat, items: [] };
           }
         })
       );
 
       setCategories(categoriesWithItems);
-    } catch (err) {
-      console.error("Failed to fetch categories:", err);
-      setError(err);
-      toast.error("Failed to load gallery.");
+    } catch {
       setCategories([]);
     } finally {
       setLoading(false);
@@ -64,62 +55,50 @@ export default function Menugallery() {
             Explore Our Projects
           </h3>
 
-          {error && !loading && (
-            <div className="mb-4 text-sm text-red-600 text-center">
-              Could not load gallery from server.
-              <button
-                onClick={loadGallery}
-                className="ml-2 underline hover:no-underline text-red-700"
-              >
-                Retry
-              </button>
-            </div>
-          )}
-
           {loading ? (
             <LoadingGridPlaceholder />
           ) : (
             <div className="space-y-12">
-              {categories.map((cat) => (
-                <div key={cat.id}>
-                  {/* Category Heading */}
-                  <h4 className="text-2xl font-semibold mb-4">
-                    {cat.name}
-                  </h4>
+              {categories.map(
+                (cat) =>
+                  cat.items.length > 0 && (
+                    <div key={cat.id}>
+                      {/* Category Heading */}
+                      <h4 className="text-2xl font-semibold mb-4">
+                        {cat.name}
+                      </h4>
 
-                  {/* Items Grid */}
-                  {cat.items.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                      {cat.items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="relative group overflow-hidden shadow-lg"
-                        >
-                          <img
-                            src={item.src}
-                            alt="Gallery"
-                            className="w-full h-64 object-cover transform duration-300 group-hover:scale-110"
-                            loading="lazy"
-                            onContextMenu={(e) => e.preventDefault()}
-                            draggable={false}
-                            onError={(e) => (e.target.style.display = "none")}
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                            <button
-                              onClick={() => setSelectedImage(item.src)}
-                              className="bg-white text-black px-4 py-1 text-sm uppercase font-medium rounded hover:bg-gray-300 transition"
-                            >
-                              View Image
-                            </button>
+                      {/* Items Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        {cat.items.map((item) => (
+                          <div
+                            key={item.id}
+                            className="relative group overflow-hidden rounded-lg shadow-lg"
+                          >
+                        <img
+  src={item.src}
+  alt="Gallery"
+  className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] object-cover transform duration-300 group-hover:scale-110"
+  loading="lazy"
+  onContextMenu={(e) => e.preventDefault()}
+  draggable={false}
+  onError={(e) => (e.target.style.display = "none")}
+/>
+
+                            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                              <button
+                                onClick={() => setSelectedImage(item.src)}
+                                className="bg-white text-black px-4 py-1 text-sm uppercase font-medium rounded hover:bg-gray-300 transition"
+                              >
+                                View Image
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  ) : (
-                    <p className="text-gray-500">No items available.</p>
-                  )}
-                </div>
-              ))}
+                  )
+              )}
             </div>
           )}
         </div>
@@ -137,7 +116,7 @@ export default function Menugallery() {
           <img
             src={selectedImage}
             alt="Full View"
-            className="max-h-[90vh] max-w-[90vw] rounded shadow-lg"
+            className="max-h-[90vh] max-w-[90vw] rounded shadow-lg object-contain"
           />
         </div>
       )}
@@ -149,11 +128,11 @@ function LoadingGridPlaceholder() {
   const count = 9;
   return (
     <div
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 animate-pulse"
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 animate-pulse"
       aria-hidden="true"
     >
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="w-full h-64 bg-gray-200" />
+        <div key={i} className="w-full h-56 sm:h-64 md:h-72 bg-gray-200 rounded-lg" />
       ))}
     </div>
   );

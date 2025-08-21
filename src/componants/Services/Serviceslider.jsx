@@ -1,3 +1,4 @@
+// src/components/ServicePageBanner.jsx
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -14,7 +15,6 @@ export default function ServicePageBanner() {
     const loadBanners = async () => {
       try {
         setLoading(true);
-     
         const data = await bannerService.fetchBanners(0, 100, "Services Banner");
         const activeBanners = data.filter((b) => b.is_active);
         setBanners(activeBanners);
@@ -43,22 +43,16 @@ export default function ServicePageBanner() {
         >
           {banners.map((banner) => (
             <SwiperSlide key={banner.id}>
-              <div className="relative lg:h-[400px] h-full">
+              {/* ✅ Responsive height fix */}
+              <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px]">
                 <img
                   src={getCleanImageUrl(banner.image_url, banner.image_path)}
-                  alt={banner.image_alt || banner.title}
-                  className="w-full h-full object-cover"
+                  alt={banner.image_alt || "Banner"}
+                  className="w-full h-full object-cover rounded-md"
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                   loading="lazy"
                 />
-                {/* optional overlay */}
-                {banner.title && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-6">
-                    <h2 className="text-xl font-bold">{banner.title}</h2>
-                    {banner.description && <p>{banner.description}</p>}
-                  </div>
-                )}
               </div>
             </SwiperSlide>
           ))}
