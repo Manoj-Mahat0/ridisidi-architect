@@ -61,24 +61,17 @@ const AboutUs = () => {
           </li>
         </ul>
       </section>
-    
-
-
-
-    <section className="py-12 px-4">
-  <h2 className="text-3xl font-bold mb-4 text-black" data-aos="fade-up">Why Choose Us?</h2>
-  <ul className="list-disc pl-6 text-gray-700 space-y-2">
-    <li data-aos="fade-up" data-aos-delay="50">Over 14 years of proven professional experience</li>
-    <li data-aos="fade-up" data-aos-delay="100">Client-centric and transparent approach</li>
-    <li data-aos="fade-up" data-aos-delay="150">Expertise in sustainable architecture</li>
-    <li data-aos="fade-up" data-aos-delay="200">Timely project delivery</li>
-    <li data-aos="fade-up" data-aos-delay="250">A time- and cost-effective solution for Bokaro clients by reducing the need for frequent architect site visits</li>
-    <li data-aos="fade-up" data-aos-delay="300">Same professional work quality as provided in metro cities</li>
-  </ul>
-</section>
-
-    
-
+      <section className="py-12 px-4">
+        <h2 className="text-3xl font-bold mb-4 text-black" data-aos="fade-up">Why Choose Us?</h2>
+        <ul className="list-disc pl-6 text-gray-700 space-y-2">
+          <li data-aos="fade-up" data-aos-delay="50">Over 14 years of proven professional experience</li>
+          <li data-aos="fade-up" data-aos-delay="100">Client-centric and transparent approach</li>
+          <li data-aos="fade-up" data-aos-delay="150">Expertise in sustainable architecture</li>
+          <li data-aos="fade-up" data-aos-delay="200">Timely project delivery</li>
+          <li data-aos="fade-up" data-aos-delay="250">A time- and cost-effective solution for Bokaro clients by reducing the need for frequent architect site visits</li>
+          <li data-aos="fade-up" data-aos-delay="300">Same professional work quality as provided in metro cities</li>
+        </ul>
+      </section>
       {/* Google Reviews Section */}
       <section className="py-12 px-4">
         <h2 className="text-3xl font-bold mb-6 text-black text-center" data-aos="fade-up">Google Reviews</h2>
@@ -103,11 +96,11 @@ const AboutUs = () => {
                   <p className="text-sm text-gray-600">Based on Google Reviews</p>
                 </div>
               </div>
-              
+
               <div className="border-t pt-4">
                 <div className="flex justify-between items-center mb-4">
                   <h4 className="font-semibold text-lg">Recent Reviews</h4>
-                  <a 
+                  <a
                     href="https://www.google.co.in/search?ibp=gwp;0,7&q=Riddhi+Siddhi+Architect&ludocid=13137533744041773407&lsig=AB86z5W832wdheo1m6AUvn4_wsOK#lkt=LocalPoiReviews&lpg=cid:CgIgAQ%3D%3D"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -116,7 +109,7 @@ const AboutUs = () => {
                     View All Reviews →
                   </a>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="border-b pb-4">
                     <div className="flex items-center mb-2">
@@ -132,7 +125,7 @@ const AboutUs = () => {
                     </p>
                     <p className="text-xs text-gray-500">- Amit Kumar, 2 weeks ago</p>
                   </div>
-                  
+
                   <div className="border-b pb-4">
                     <div className="flex items-center mb-2">
                       <div className="flex text-yellow-400">
@@ -147,7 +140,7 @@ const AboutUs = () => {
                     </p>
                     <p className="text-xs text-gray-500">- Priya Singh, 1 month ago</p>
                   </div>
-                  
+
                   <div>
                     <div className="flex items-center mb-2">
                       <div className="flex text-yellow-400">
@@ -165,9 +158,9 @@ const AboutUs = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-6 text-center">
-                <a 
+                <a
                   href="https://www.google.co.in/search?ibp=gwp;0,7&q=Riddhi+Siddhi+Architect&ludocid=13137533744041773407&lsig=AB86z5W832wdheo1m6AUvn4_wsOK#lkt=LocalPoiReviews&lpg=cid:CgIgAQ%3D%3D"
                   target="_blank"
                   rel="noopener noreferrer"

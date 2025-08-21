@@ -14,10 +14,7 @@ const images = [
     src: img26,
     alt: "Small 2",
   },
-  // {
-  //   src: img14,
-  //   alt: "Small 3",
-  // },
+
   {
     src: img15,
     alt: "Small 4",
@@ -41,33 +38,24 @@ const ProjectGallery = () => {
         </div>
       </div>
       <div>
-        <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-14">
+        <div className="grid lg:grid-cols-3 grid-rows-2 gap-4 mt-14">
           {images.map((img, idx) => (
             <div
               key={idx}
-              className={`relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${
-                img.big ? "col-span-2 row-span-1" : ""
-              }`}
+              className={`relative group overflow-hidden  shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${img.big ? "col-span-2 row-span-1" : ""
+                }`}
             >
               <img
                 src={img.src}
                 alt={img.alt}
-                className={`w-full h-64 object-cover transition-all duration-700 group-hover:scale-110 rounded-2xl`}
-                onContextMenu={(e) => e.preventDefault()} // disables 
+                className={`w-full h-64 object-cover transition-transform duration-[2000ms] group-hover:scale-110`}
+                onContextMenu={(e) => e.preventDefault()}
                 draggable={false}
               />
-              
-              {/* Enhanced overlay with gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6 rounded-2xl">
                 <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  {/* <h3 className="text-white text-xl font-bold mb-2 drop-shadow-lg">{img.alt}</h3> */}
-                  {/* <p className="text-gray-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200">
-                    Click to view details
-                  </p> */}
                 </div>
               </div>
-
-              {/* Subtle border glow on hover */}
               <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-white/30 transition-all duration-500"></div>
             </div>
           ))}
@@ -75,7 +63,7 @@ const ProjectGallery = () => {
         <div className="flex justify-center mt-8">
           <NavLink to='/Menugallery'>
             <button
-              className="border-2 border-black px-8 py-3 uppercase mt-4 hover:bg-black hover:text-white transition-all duration-300 rounded-full font-semibold tracking-wide shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
+              className="border border-black px-4 py-2 uppercase mt-4 hover:bg-black hover:text-white transition"
             >
               Know More
             </button>

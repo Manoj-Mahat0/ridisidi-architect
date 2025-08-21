@@ -116,7 +116,7 @@ const Login = () => {
         setShowForgotPasswordModal(false);
         setResetToken("");
         setNewPassword("");
-        setPassword(""); // Clear the login password field
+        setPassword("");
       }
     } catch (error) {
       console.error("Password reset failed:", error);

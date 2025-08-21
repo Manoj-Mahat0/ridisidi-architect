@@ -26,7 +26,7 @@ export default function OurServices() {
           // Group services by category
           const grouped = res.reduce((acc, service) => {
             // Extract category from service name (e.g., "RESIDENTIAL PROJECT" -> "RESIDENTIAL")
-            let category = "Other Services";
+            let category = "Interior Design";
             
             if (service.name.includes("RESIDENTIAL")) {
               category = "Residential Projects";

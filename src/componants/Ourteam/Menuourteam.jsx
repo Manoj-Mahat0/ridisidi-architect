@@ -6,7 +6,6 @@ const Menuourteam = () => {
   return (
     <>
       <Ourteamslider />
-
       <Ourteam />
 
     </>

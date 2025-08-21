@@ -49,7 +49,6 @@ const ContactSection = () => {
                   </a>
                 </p>
 <div className="flex space-x-6 pt-3 text-4xl font-bold text-black">
-  {/* Instagram */}
   <a
     href="https://www.instagram.com/jiten3635/"
     target="_blank"
@@ -57,8 +56,6 @@ const ContactSection = () => {
   >
     <i className="ri-instagram-line text-black"></i>
   </a>
-
-  {/* Facebook */}
 <a
   href="https://www.facebook.com/jiten.kumar.37"
   target="_blank"
@@ -66,11 +63,6 @@ const ContactSection = () => {
 >
  <i class="ri-facebook-circle-fill"></i>
 </a>
-
-
- 
-
-  {/* YouTube */}
   <a
     href="https://www.youtube.com/@riddhisiddhiarchitect"
     target="_blank"
@@ -78,9 +70,6 @@ const ContactSection = () => {
   >
     <i className="ri-youtube-line text-black"></i>
   </a>
-
-
-   {/* WhatsApp */}
   <a
     href="https://wa.me/918826243157"
     target="_blank"
@@ -89,8 +78,7 @@ const ContactSection = () => {
     <i className="ri-whatsapp-line text-black"></i>
   </a>
 </div>
-
-              </div>
+  </div>
             </div>
             <div className="pt-6" data-aos="fade-up">
               <iframe

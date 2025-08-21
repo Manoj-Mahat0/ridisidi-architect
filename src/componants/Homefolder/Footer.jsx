@@ -12,7 +12,8 @@ export default function Footer() {
           </p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold mb-4 uppercase">Quick Links</h4>
+          <div className="lg:ml-10  ml-0">
+            <h4 className="text-lg font-semibold mb-4  uppercase">Quick Links</h4>
           <ul className="space-y-2">
 
             <NavLink to="/">
@@ -34,18 +35,38 @@ export default function Footer() {
               <li >CONTACT US</li>
             </NavLink>
             <NavLink to="/login"><li >ADMIN PANEL</li></NavLink>
-
-
           </ul>
+          </div>
         </div>
         <div>
           <h4 className="text-lg font-semibold mb-4 uppercase" >Our Services</h4>
           <ul className="space-y-2 uppercase">
-            <li><a href="#" className="hover:text-black">Architecture</a></li>
-            <li><a href="#" className="hover:text-black">Interior Designing</a></li>
-            <li><a href="#" className="hover:text-black">Landscape</a></li>
-          </ul>
+            <li>
+              <NavLink
+                to="/menuservices"
+                className="hover:text-black"
+              >
+                Architecture
+              </NavLink>
+            </li>
 
+            <li>
+              <NavLink
+                to="/menuservices"
+                className="hover:text-black"
+              >
+                Interior Designing
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/menuservices"
+                className="hover:text-black"
+              >
+                Landscape
+              </NavLink>
+            </li>
+          </ul>
         </div>
         <div>
           <h4 className="text-lg font-semibold mb-4 uppercase">Contact Us</h4>
@@ -53,16 +74,16 @@ export default function Footer() {
           <p>Phone:+91-882 624 3157</p>
           {/* <p>Email:contact@riddhisiddhiarchitect.in </p> */}
           <p className="flex">
-                  Email:{" "}
-                  <a
-                    href="mailto: contact@riddhisiddhiarchitect.in"
-                    className="hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    contact@riddhisiddhiarchitect.in
-                  </a>
-                </p>
+            Email:{" "}
+            <a
+              href="mailto: contact@riddhisiddhiarchitect.in"
+              className="hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              contact@riddhisiddhiarchitect.in
+            </a>
+          </p>
         </div>
       </div>
       <div className="mt-8 text-center text-sm text-white border-t border-white/20 ">
