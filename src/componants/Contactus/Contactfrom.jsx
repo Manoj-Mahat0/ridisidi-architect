@@ -4,7 +4,6 @@ import { contactService } from "../../api/contactService";
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
     subject: "",
     message: "",
@@ -24,10 +23,16 @@ const ContactForm = () => {
     setStatus("Sending...");
 
     try {
-      const response = await contactService.submitContact(formData);
+      // Add hardcoded email to the form data
+      const submissionData = {
+        ...formData,
+        email: "er@gmail.com" // Hardcoded email
+      };
+
+      const response = await contactService.submitContact(submissionData);
       console.log('Contact submission successful:', response);
       setStatus("Message sent successfully!");
-      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+      setFormData({ name: "", phone: "", subject: "", message: "" });
     } catch (err) {
       console.error("Error sending message:", err);
       setStatus("An error occurred. Please try again.");
@@ -45,14 +50,6 @@ const ContactForm = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          className="w-full p-3 border border-gray-500 rounded"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleChange}
           className="w-full p-3 border border-gray-500 rounded"
         />
         <input
