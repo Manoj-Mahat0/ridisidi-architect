@@ -28,7 +28,7 @@ const AdminSidebar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -76,9 +76,10 @@ const AdminSidebar = () => {
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         ${isOpen ? 'w-64' : 'w-20'} 
         lg:block
+        flex flex-col
       `}>
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-700">
+        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-700 flex-shrink-0">
           {isOpen && <h2 className="text-lg font-semibold">Admin Panel</h2>}
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -95,7 +96,7 @@ const AdminSidebar = () => {
         </div>
 
         {/* User Profile Section */}
-        <div className="px-4 py-4 border-b border-gray-700">
+        <div className="px-4 py-4 border-b border-gray-700 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
               <FiUser className="text-white" size={18} />
@@ -113,8 +114,8 @@ const AdminSidebar = () => {
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="mt-6 space-y-2 px-2">
+        {/* Navigation - Scrollable */}
+        <nav className="flex-1 overflow-y-auto mt-6 space-y-2 px-2 pb-20">
           {menuItems.map((item, index) => {
             const isActive = location.pathname === item.path;
             return (
@@ -132,8 +133,8 @@ const AdminSidebar = () => {
           })}
         </nav>
 
-        {/* Logout Button */}
-        <div className="absolute bottom-0 w-full px-2 pb-4">
+        {/* Logout Button - Fixed at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 px-2 pb-4 bg-[#1F2937] border-t border-gray-700">
           <button
             onClick={handleLogout}
             className="flex items-center w-full px-4 py-3 rounded-lg hover:bg-red-600 transition-colors text-gray-300 hover:text-white"
